@@ -1,0 +1,46 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <title>Order History</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <a class="btn  btn-md btn-info" href="/home">Continue Shopping</a>
+
+            <div class="order-body" >
+                <table class="table table-inverse">
+                    <thead>
+                      <tr>
+                        <th>Product Id</th>
+                        <th>Amount</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                    <%for(var i in order[0].oQuantities){ if(!order[0].oQuantities[i].productAmt)continue%>
+                        <tr>
+                            <td><%=order[0].oCommodities[i].productId%></td>
+                            <td><%=order[0].oQuantities[i].productAmt%></td>
+                        </tr>
+                   <%}%>
+                  </tbody>
+                </table>
+                <div class="well">Ship to: <%=order[0].oAddress%></div>
+            </div>
+
+
+
+</body>
+
+<script>
+    
+    
+</script>
+
+
+</html>
