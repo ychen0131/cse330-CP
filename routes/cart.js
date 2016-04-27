@@ -1,5 +1,5 @@
 module.exports = function ( app ) {
-    //查看购物车商品
+    //view cart
     app.get('/cart', function(req, res) {
     	var User = global.dbHelper.getModel('user');
         var Cart = global.dbHelper.getModel('cart');
@@ -18,9 +18,9 @@ module.exports = function ( app ) {
             });
         }
     });
-    //添加购物车商品
+    //add product to cart
     app.get("/addToCart/:id", function(req, res) {
-       //req.params.id 获取商品ID号
+       //req.params.id: Get product Id
         if(!req.session.user){
             req.session.error = "Operation timed out: Please log in again"
             res.redirect('/login');
@@ -28,15 +28,14 @@ module.exports = function ( app ) {
             var Commodity = global.dbHelper.getModel('commodity'),
                 Cart = global.dbHelper.getModel('cart');
             Cart.findOne({"uId":req.session.user._id, "cId":req.params.id},function(error,doc){
-                //商品已存在 +1
+                //Product already exists in cart +1
                 if(doc){
                     Cart.update({"uId":req.session.user._id, "cId":req.params.id},{$set : { cQuantity : doc.cQuantity + 1 }},function(error,doc){
-                        //成功返回1  失败返回0
                         if(doc > 0){
                             res.redirect('/home');
                         }
                     });
-                //商品未存在，添加
+                //Product does not exist in cart, add to cart
                 }else{
                     Commodity.findOne({"_id": req.params.id}, function (error, doc) {
                         if (doc) {
@@ -61,12 +60,11 @@ module.exports = function ( app ) {
         }
     });
 
-    //删除购物车商品
+    //delete product from the cart
     app.get("/delFromCart/:id", function(req, res) {
-        //req.params.id 获取商品ID号
+        //req.params.id: Get Product Id
         var Cart = global.dbHelper.getModel('cart');
         Cart.remove({"_id":req.params.id},function(error,doc){
-            //成功返回1  失败返回0
             if(doc > 0){
                 res.redirect('/cart');
             }
@@ -78,7 +76,7 @@ module.exports = function ( app ) {
 
 
     app.post("/cart/createOrder", function(req, res) {
-        //req.params.id 获取商品ID号
+        //req.params.id: Get Product Id
         console.log(req.body.addressName);
         var timestamp = new Date().getUTCMilliseconds();
         var now = new Date();
@@ -121,7 +119,7 @@ module.exports = function ( app ) {
     });
 
 
-    //购物车结算
+    //Check out
     app.post("/cart/clearing",function(req,res){
         var Cart = global.dbHelper.getModel('cart');
         var User = global.dbHelper.getModel('user');
