@@ -8,7 +8,7 @@
     <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
-            // 商品+-
+            // Modify product amount
             $('.li-quantity a').click(function(){
                 var self = $(this);
                 var type = self.attr('data-type'),
@@ -26,14 +26,14 @@
                 tamount();
             });
 
-            //checkbox 单选事件
+            //checkbox CheckOne
             $('input[name="chkItem"]:checkbox').click(function(){
                 var isCheck = $('input[name="chkItem"]:not(:checked)').length?false:true;
                 $('#CheckAll').prop("checked",isCheck);
                 tamount();
             });
 
-            //checkbox 全选事件
+            //checkbox Check multiple
             $('#CheckAll').click(function(){
                 var self = $(this);
                 $('input[name="chkItem"]').each(function(){
@@ -43,8 +43,11 @@
             });
 
         });
+        
+        
+        
         var sum = 0;
-        //用户结算
+        //User check out
         
         function createOrder(uId, addressName) {
             var data = {"uId": uId, "addressName": addressName};
